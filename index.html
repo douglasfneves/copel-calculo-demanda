@@ -1,0 +1,393 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="description" content="Cálculo de corrente por demanda">
+		<meta name="author" content="Douglas Neves">
+		<title>Cálculo de corrente por demanda</title>
+		<link rel="stylesheet" type="text/css" href="css/normalize.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	<head>
+	<body>
+	
+		<h2>Calculo de corrente e elos fusíveis por demanda em <br>chaves de rede de distribuição 13,8kV e 34,5kV.</h2>
+		
+		<div class="container">
+			<form>
+				<div class="demanda">
+					<h4>Demanda em kVA:</h4>
+					<input type="text" id="demanda" name="demanda">
+				</div>
+				<div class="tensao">
+					<h4>Tensão:</h4>
+					<input type="radio" id="13" name="tensao" value="13.8"> 13,8 kV<br>
+					<input type="radio" id="34" name="tensao" value="34.5"> 34,5 kV<br>
+				</div>
+				<div class="fases">
+					<h4>Fases:</h4>
+					<input type="radio" class="tri" name="fases" value="0.577"><span class="tri"> Trifásico</span><br> <!-- 1/RAIZ3 -->
+					<input type="radio" class="bi" name="fases" value="1"><span class="bi bifasico"> Bifásico</span><br> <!-- 1 -->
+					<input type="radio" class="mono" name="fases" value="1.732"><span class="mono"> Monofásico</span><br> <!-- RAIZ3 -->
+				</div>
+				<div class="calcular">
+					<input type="submit" id="calcula" value="Calcular">
+				</div>
+			</form>
+			<div class="resultado">
+				<div class="corrente">
+					<h4>Corrente calculada:</h4>
+					<p><span id="corrente-calculada"></span></p>
+				</div>
+				<div class="elo">
+					<h4>Elo recomendado:</h4>
+					<p><span id="elo-recomendado"></span></p>
+				</div>
+				<div class="limpar">
+					<input type="submit" id="limpa" value="Limpar" >
+				</div>
+				<div class="info">
+					<p><b>Obs.: Para proteção de transformadores consultar tabela abaixo.</b></p>
+				</div>			
+			</div>
+		</div>
+		
+		<h3>Código para macros AUTRACK e PALM</h3>
+		
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Descrição</th>
+					<th>Código</th>
+				</tr>
+				<tr>
+					<td>0.5A TIPO H - 1 RH</td>
+					<td>1RH</td>
+				</tr>
+				<tr>
+					<td>OLHAL 0.5A TIPO H - 1 RR</td>
+					<td>1RR</td>
+				</tr>
+				<tr>
+					<td>OLHAL 1A TIPO H - 1 RU</td>
+					<td>1RU</td>
+				</tr>
+				<tr>
+					<td>ELO FUSIVEL 1 H</td>
+					<td>1H</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL 2 H</td>
+					<td>2H</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL 3 H</td>
+					<td>3H</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL 5 H</td>
+					<td>5H</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL 6 K</td>
+					<td>6K</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL ... K</td>
+					<td>...K</td>
+				</tr>
+				<tr>
+					<td>ELO	FUSIVEL n K</td>
+					<td>nK</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<h3>Elos fusíveis para proteção de transformadores</h3>
+		
+		<table class="table">
+			<tbody>
+				<tr>
+					<th colspan="3">TRANSFORMADORES<br>MONOFÁSICOS</th>
+					<th colspan="3">TRANSFORMADORES<br>TRIFÁSICOS</th>
+					<th colspan="2">TRANSFORMADORES<br>TRIFÁSICOS SERVIÇO AUXILIAR SE'S</th>
+				</tr>
+				<tr>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>13,8 KV</th>
+					<th>34,5 KV</th>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>13,8 KV</th>
+					<th>34,5 KV</th>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>34,5 KV</th>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td>1H</td>
+					<td>-</td>
+					<td>15</td>
+					<td>1H</td>
+					<td>1H</td>
+					<td>30</td>
+					<td>1EF</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>1H</td>
+					<td>1H</td>
+					<td>30</td>
+					<td>2H</td>
+					<td>1H</td>
+					<td>45</td>
+					<td>1EF</td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td>2H</td>
+					<td>1H</td>
+					<td>45</td>
+					<td>3H</td>
+					<td>2H</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>25</td>
+					<td>3H</td>
+					<td>2H</td>
+					<td>75</td>
+					<td>5H</td>
+					<td>2H</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>112,5</td>
+					<td>6K</td>
+					<td>3H</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>150</td>
+					<td>8K</td>
+					<td>5H</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>225</td>
+					<td>10K</td>
+					<td>6K</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>300</td>
+					<td>15K</td>
+					<td>7EF</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>500</td>
+					<td>-</td>
+					<td>10EF</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>750</td>
+					<td>30K</td>
+					<td>15EF</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>1000</td>
+					<td>-</td>
+					<td>15EF</td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	
+		<table class="table">
+			<tbody>
+				<tr>
+					<th colspan="3">Tabela 01 - RDR 13,8 Kv<br>Transformadores Monofásicos de 13,2 kV</th>
+					<th colspan="3">Tabela 02 - RDR 13,8 Kv<br>Transformadores Trifásicos de 13,2 kV</th>
+					<th colspan="3">Tabela 03 - RDR 34,5 Kv<br>Transformadores Monofásicos de 19,05 kV</th>
+				</tr>
+				<tr>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>TIPO</th>
+					<th>NTC</th>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>TIPO</th>
+					<th>NTC</th>
+					<th>POTÊNCIA<br>(KVA)</th>
+					<th>TIPO</th>
+					<th>NTC</th>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td>1H</td>
+					<td>813890</td>
+					<td>10</td>
+					<td>1H</td>
+					<td>813890</td>
+					<td>10</td>
+					<td>1H</td>
+					<td>813929</td>
+				</tr>
+				<tr>
+					<td>10</td>
+					<td>1H</td>
+					<td>813890</td>
+					<td>15</td>
+					<td>1H</td>
+					<td>813890</td>
+					<td>15</td>
+					<td>1H</td>
+					<td>813929</td>
+				</tr>
+				<tr>
+					<td>15</td>
+					<td>2H</td>
+					<td>813891</td>
+					<td>30</td>
+					<td>2H</td>
+					<td>813891</td>
+					<td>25</td>
+					<td>2H</td>
+					<td>813930</td>
+				</tr>
+				<tr>
+					<td>25</td>
+					<td>3H</td>
+					<td>813892</td>
+					<td>45</td>
+					<td>3H</td>
+					<td>813892</td>
+					<td>37,5</td>
+					<td>3H</td>
+					<td>813931</td>
+				</tr>
+				<tr>
+					<td>37,5</td>
+					<td>5H</td>
+					<td>813893</td>
+					<td>75</td>
+					<td>5H</td>
+					<td>813893</td>
+					<td>50</td>
+					<td>5H</td>
+					<td>813932</td>
+				</tr>
+				<tr>
+					<td>50</td>
+					<td>5H</td>
+					<td>813893</td>
+					<td>112,5</td>
+					<td>6K</td>
+					<td>813900</td>
+					<td>75</td>
+					<td>5H</td>
+					<td>813932</td>
+				</tr>
+				<tr>
+					<td>75</td>
+					<td>6K</td>
+					<td>813900</td>
+					<td>150</td>
+					<td>8K</td>
+					<td>813901</td>
+					<td>100</td>
+					<td>6K</td>
+					<td>813933</td>
+				</tr>
+				<tr>
+					<td>100</td>
+					<td>6K</td>
+					<td>813901</td>
+					<td>225</td>
+					<td>10K</td>
+					<td>813902</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>300</td>
+					<td>15K</td>
+					<td>813903</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	
+		<table class="table">
+			<tbody>
+				<tr>
+					<th colspan="3">DIMENSIONAMENTO<br>BANCO DE CAPACITORES</th>
+				</tr>
+				<tr>
+					<th>Banco(Kvar)</th>
+					<th>SE</th>
+					<th>Redes</th>
+				</tr>
+				<tr>
+					<td>300</td>
+					<td>15 EF</td>
+					<td>15 K</td>
+				</tr>
+				<tr>
+					<td>600</td>
+					<td>25 EF</td>
+					<td>25 K</td>
+				</tr>
+				<tr>
+					<td>900</td>
+					<td>30 EF</td>
+					<td>40 K</td>
+				</tr>
+				<tr>
+					<td>1200</td>
+					<td>50 EF</td>
+					<td>65 K</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<script src="js/jquery-1.12.0.min.js"></script>
+		<script src="js/calculo.js"></script>
+	</body>
+</html>

@@ -1,0 +1,97 @@
+body {
+	background-color: #e6e6e6;
+	font-family: Verdana, Sans-serif;
+	color: #000080;
+	font-size: 14px;
+}
+
+h2, h3{
+	margin-left: 50px;
+	padding: 15px 0;
+}
+h4 {
+	line-height: .5;
+}
+
+.container {
+	margin-left: 50px;
+}
+
+.table {
+	background-color: #d1d1d1;
+	margin: 20px 50px;
+}
+
+.table th {
+	background-color: #b3b3b3;
+	text-align: center;
+	padding: 8px 4px;
+}
+
+.table td {
+	text-align: center;
+	padding: 8px 4px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+.demanda {
+	background-color: #b3b3b3;
+	float: left;
+	width: 200px;
+	height: 120px;
+	border: 1px solid #e6e6e6;
+	padding: 10px;
+}
+
+.tensao, .fases, .calcular{
+	background-color: #b3b3b3;
+	float: left;
+	width: 120px;
+	height: 120px;
+	border: 1px solid #e6e6e6;
+	padding: 10px;
+}
+
+#calcula {
+	margin: 30px 15px;
+	padding: 20px 10px;
+}
+
+#calcula:hover {
+	background-color: rgba(187, 210, 253, 1);
+}
+
+.resultado {
+	clear: both;
+	background-color: #b3b3b3;
+	width: 606px;
+	height: 150px;
+	border: 1px solid #e6e6e6;
+	padding: 20px;
+}
+
+.corrente, .elo {
+	float: left;
+	background-color: #ccffff;
+	width: 250px;
+	height: 90px;
+	margin: 10px 15px;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #000080;
+}
+
+.corrente p, .elo p {
+	font-size: 20px;
+	font-weight: bold;
+
+}
+
+.limpar {
+	float: right;
+}
+
+.info {
+	margin-top: 5px;
+}
